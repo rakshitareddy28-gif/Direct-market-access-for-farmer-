@@ -1,0 +1,6 @@
+{
+  "name": "Direct Market Access to Farmers",
+  "description": "Direct farm-to-table rapid commerce connecting urban households to local regenerative growers with harvest timestamps, 100% fair price transparency, and real-time provenance tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
