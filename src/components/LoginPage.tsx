@@ -55,6 +55,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBackToShopping, onOpenLi
       // Normal popup cancellation: don't log console.error that flags test monitors
       if (err?.code === 'auth/popup-closed-by-user' || err?.code === 'auth/cancelled-popup-request') {
         setErrorMsg('Sign-in popup was closed before completing. You can try again or use Quick Demo Patron Access.');
+      } else if (err?.code === 'auth/unauthorized-domain') {
+        setErrorMsg('This web domain is not yet in Firebase authorized domains. Please click "Quick Demo Patron Access" below for immediate access.');
       } else {
         console.warn('Google Sign In Notice:', err?.message || err);
         setErrorMsg(err?.message || 'Failed to sign in with Google. Please try again.');
