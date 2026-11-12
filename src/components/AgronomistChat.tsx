@@ -71,6 +71,10 @@ export const AgronomistChat: React.FC = () => {
         }),
       });
 
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+
       const data = await res.json();
       const replyContent = data.reply || 'I am reviewing the estate harvest logs. Please inquire regarding our dawn harvest batches or farmer ledger.';
 

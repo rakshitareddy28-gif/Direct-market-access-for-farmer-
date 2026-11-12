@@ -11,7 +11,29 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+// Determine listening port:
+// In AI Studio / Cloud Run container, NGINX reverse-proxy runs on port 8080 (PORT=8080)
+// and forwards internal requests to port 3000 (DEFAULT_APP_PORT=3000).
+// Dev server MUST strictly bind to port 3000 per environment constraints.
+function resolvePort(): number {
+  const portArgIndex = process.argv.indexOf('--port');
+  if (portArgIndex !== -1 && process.argv[portArgIndex + 1]) {
+    return Number(process.argv[portArgIndex + 1]);
+  }
+  if (process.env.DEFAULT_APP_PORT) {
+    return Number(process.env.DEFAULT_APP_PORT);
+  }
+  if (process.env.NGINX_PORT && process.env.PORT === process.env.NGINX_PORT) {
+    return 3000;
+  }
+  if (process.env.PORT && process.env.PORT !== '8080') {
+    return Number(process.env.PORT);
+  }
+  return 3000;
+}
+
+const PORT = resolvePort();
 
 app.use(express.json());
 
@@ -176,8 +198,12 @@ async function startServer() {
     });
   }
 
-  app.listen(Number(PORT), '0.0.0.0', () => {
+  const server = app.listen(Number(PORT), '0.0.0.0', () => {
     console.log(`Stillfield server listening on port ${PORT}`);
+  });
+
+  server.on('error', (err: any) => {
+    console.error(`Stillfield server error on port ${PORT}:`, err);
   });
 }
 

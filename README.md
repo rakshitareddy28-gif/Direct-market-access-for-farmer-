@@ -88,21 +88,36 @@ cp .env.example .env
 
 ---
 
-## Getting Started
+## How to Run & Host
 
-### 1. Install Dependencies
+### Option A: Free Live Website on GitHub Pages (Frontend)
+This repository includes a preconfigured GitHub Actions workflow (`.github/workflows/deploy-pages.yml`):
+1. Go to your repository on **GitHub**.
+2. Click **Settings** (top tabs) → **Pages** (in left sidebar).
+3. Under **Build and deployment** → **Source**, select **GitHub Actions**.
+4. Push to `main` (or click **Actions** → **Deploy to GitHub Pages** → **Run workflow**).
+5. GitHub will automatically build and host the app at `https://<your-username>.github.io/<your-repo-name>/`.
+
+### Option B: Free 1-Click Full-Stack Hosting (Render / Railway / Cloud Run)
+Because Stillfield includes a full-stack Express backend with server-side Gemini AI endpoints, hosting on a Node/container provider runs both the UI and backend:
+- **Render.com**: Click **New +** → **Web Service** → Select your GitHub repo → Build command: `npm install && npm run build` → Start command: `npm start`. (Or use the included `render.yaml`).
+- **Railway.app**: Click **New Project** → **Deploy from GitHub repo**.
+
+### Option C: Running Locally on Your Machine
 ```bash
+# 1. Clone the repository
+git clone https://github.com/<your-username>/<your-repo-name>.git
+cd <your-repo-name>
+
+# 2. Install dependencies
 npm install
-```
 
-### 2. Development Mode
-Runs the Express backend with Vite middleware and live TypeScript execution:
-```bash
+# 3. Start local development server
 npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 3. Production Build & Execution
+### Production Build & Execution
 ```bash
 # Type check and build frontend assets into dist/
 npm run build
@@ -111,7 +126,7 @@ npm run build
 npm start
 ```
 
-### 4. Code Quality & Linting
+### Code Quality & Linting
 ```bash
 npm run lint
 ```
